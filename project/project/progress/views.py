@@ -16,4 +16,5 @@ def has_cert(request):
         response.body = 'ok'
     except Exception, e:
         response.body = 'lol'
+    response['Access-Control-Allow-Origin'] = '*'
     return response
