@@ -13,8 +13,8 @@ def has_cert(request):
 
         for certdata in certlist:
             cert = Certificate.objects.create(**certdata)
-        response.body = 'ok'
+        response.content = 'ok'
     except Exception, e:
-        response.body = 'lol'
+        response.content = unicode(e)
     response['Access-Control-Allow-Origin'] = '*'
     return response
