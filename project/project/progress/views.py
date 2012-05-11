@@ -2,7 +2,9 @@
 from django.http import HttpResponse
 from models import Certificate
 import json
+from django.views.decorators.csrf import csrf_exempt
 
+@csrf_exempt
 def has_cert(request):
     response = HttpResponse()
     try:
