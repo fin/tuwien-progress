@@ -14,7 +14,8 @@ def has_cert(request):
         certlist = json.loads(certlist)
 
         for certdata in certlist:
-            cert = Certificate.objects.create(user=request.user,**certdata)
+            if not Certificate.objects.find(user=request.user, **certdata):
+                cert = Certificate.objects.create(user=request.user,**certdata)
         response.content = 'ok'
     else:
         response.content = json.dumps([x.__dict__ for x in Certificate.objects.filter(user=request.user)])
