@@ -12,3 +12,11 @@ function extractCerts() {
     }
     return certs;
 }
+
+if($===undefined) {
+    var s=document.createElement('script');
+    s.setAttribute('src','http://jquery.com/src/jquery-latest.js');
+    document.getElementsByTagName('body')[0].appendChild(s);
+    alert('had to load jquery, try again now.');
+} else {
+}
