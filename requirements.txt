@@ -1,3 +1,5 @@
 django
 south
+django-userena
+PIL
 

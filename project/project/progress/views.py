@@ -7,14 +7,17 @@ from django.views.decorators.csrf import csrf_exempt
 @csrf_exempt
 def has_cert(request):
     response = HttpResponse()
-    try:
-        certlist = request.POST['certs']
+    certlist = request.POST.get('certs',None)
+    if request.user.is_anonymous():
+        response.content = 'not logged in!'
+    elif certlist:
         certlist = json.loads(certlist)
 
         for certdata in certlist:
-            cert = Certificate.objects.create(**certdata)
+            cert = Certificate.objects.create(user=request.user,**certdata)
         response.content = 'ok'
-    except Exception, e:
-        response.content = unicode(e)
+    else:
+        response.content = json.dumps([x.__dict__ for x in Certificate.objects.filter(user=request.user)])
     response['Access-Control-Allow-Origin'] = '*'
     return response
+
