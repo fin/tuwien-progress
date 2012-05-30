@@ -10,7 +10,7 @@ class Profile(UserenaBaseProfile):
                                 related_name='my_profile')
     auth_key = models.CharField(max_length=255, unique=True)
 
-    def safe(self, *args, **kwargs):
+    def save(self, *args, **kwargs):
         if not self.auth_key:
             self.auth_key = str(uuid.uuid4())
         super(Profile, self).save()
