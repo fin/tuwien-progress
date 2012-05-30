@@ -18,7 +18,7 @@ function extractCerts() {
 function sendCerts() {
     var certs = extractCerts();
 
-    $.post('https://nomin.at/p/tiss/cert/?auth_token='+window.tisshack_authkey, certs);
+    $.post('https://nomin.at/p/tiss/cert/?auth_token='+window.tisshack_authkey, {'certs': JSON.stringify(certs)});
 }
 
 if($===undefined) {
