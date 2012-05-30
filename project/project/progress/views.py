@@ -31,7 +31,7 @@ def has_cert(request):
             response.content = json.dumps([x.__dict__ for x in Certificate.objects.filter(user=user)])
     except Exception, e:
         import traceback
-        e.content = str(e) + '\n' + traceback.format_exc()
+        response.content = str(e) + '\n' + traceback.format_exc()
     response['Access-Control-Allow-Origin'] = '*'
     return response
 
