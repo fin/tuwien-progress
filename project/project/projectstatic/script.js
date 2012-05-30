@@ -16,6 +16,9 @@ function extractCerts() {
 }
 
 function sendCerts() {
+    var certs = extractCerts();
+
+    $.post('https://nomin.at/p/tiss/certs/?auth_token='+window.tisshack_authkey, certs);
 }
 
 if($===undefined) {

@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from models import Certificate
 import json
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.models import User
+from project.tuprofile.models import Profile
 
 from django.views.generic.simple import direct_to_template
 
