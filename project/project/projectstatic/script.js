@@ -20,7 +20,7 @@ function sendCerts() {
 
 if($===undefined) {
     var s=document.createElement('script');
-    s.setAttribute('src','http://jquery.com/src/jquery-latest.js');
+    s.setAttribute('src','//ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js');
     document.getElementsByTagName('body')[0].appendChild(s);
     setTimeout(sendCerts, 2000);
 } else {
