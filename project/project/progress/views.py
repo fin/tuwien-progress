@@ -5,7 +5,7 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from project.tuprofile.models import Profile
-
+from decimal import *
 from django.views.generic.simple import direct_to_template
 
 @csrf_exempt
@@ -24,6 +24,8 @@ def has_cert(request):
             certlist = json.loads(certlist)
 
             for certdata in certlist:
+                certdata['semst'] = Decimal(certdata['semst'])
+                certdata['ects'] = Decimal(certdata['ects'])
                 if not Certificate.objects.filter(user=user, **certdata):
                     cert = Certificate.objects.create(user=user,**certdata)
             response.content = 'ok'
