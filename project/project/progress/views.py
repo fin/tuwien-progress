@@ -24,7 +24,7 @@ def has_cert(request):
             certlist = json.loads(certlist)
 
             for certdata in certlist:
-                if not Certificate.objects.find(user=user, **certdata):
+                if not Certificate.objects.filter(user=user, **certdata):
                     cert = Certificate.objects.create(user=user,**certdata)
             response.content = 'ok'
         else:
