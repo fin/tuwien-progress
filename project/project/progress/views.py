@@ -24,6 +24,8 @@ def has_cert(request):
             certlist = json.loads(certlist)
 
             for certdata in certlist:
+                if not certdata['ects']: # Verleihung des BSc-Grads, etc
+                    continue
                 certdata['semst'] = Decimal(certdata['semst'])
                 certdata['ects'] = Decimal(certdata['ects'])
                 if not Certificate.objects.filter(user=user, **certdata):
