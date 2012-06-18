@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from project.tuprofile.models import Profile
 from decimal import *
 from django.views.generic.simple import direct_to_template
-from django.core.serializers.json import DjangoJSONEncoder
+from django.core import serializers
 
 @csrf_exempt
 def has_cert(request):
@@ -33,7 +33,7 @@ def has_cert(request):
                     cert = Certificate.objects.create(user=user,**certdata)
             response.content = 'ok'
         else:
-            response.content = json.dumps([x.__dict__ for x in Certificate.objects.filter(user=user)], cls=DjangoJSONEncoder)
+            response.content = serializers.serialize('json', Certificate.objects.filter(user=user))
     except Exception, e:
         import traceback
         response.content = str(e) + '\n' + traceback.format_exc()

@@ -28,5 +28,5 @@ class Certificate(models.Model):
     mark = models.CharField(max_length=100)
     professor = models.CharField(max_length=100)
     user = models.ForeignKey(User)
-    use_for = models.ForeignKey(Curriculum, null=True)
+    use_for = models.ForeignKey(Curriculum, null=True, blank=True)
 
