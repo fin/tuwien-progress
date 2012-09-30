@@ -1,0 +1,62 @@
+<html>
+    <head>
+        <title>tiss progress</title>
+        <style>
+            body {
+                font-size: .9em;
+            }
+            .main {
+                font-style: italic;
+            }
+            .tree {
+                border-left: 1px solid black;
+                border-top: 1px solid black;
+                padding-left: 5px;
+                margin-left: 5px;
+                margin-bottom: 2em;
+            }
+            .tree .lva {
+                border-top: 1px dotted grey;
+            }
+            .tree .name {
+                display: inline-block;
+                max-width: 500px;
+            }
+            .tree .ects {
+                position: absolute;
+                left: 550px;
+                width: 80px;
+                display: block;
+                text-align: right;
+                margin-top: -1.15em;
+            }
+            .lva.done {
+                background-color: lightgreen;
+            }
+
+            .tree .do_not_use {
+                cursor: pointer;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>{{curriculum.name}}</h1>
+        <p>{{curriculum.matched_ects}} / {{curriculum.min_ects}}</p>
+        {% for t in curriculum.trees %}
+            <div class="tree">
+                {% include 'progress/curriculumtree.html' with depth=1 %}
+            </div>
+        {% endfor %}
+        <h1>unmatched</h2>
+        {% regroup curriculum.unmatched by whichcurriculum as unmatched_list %}
+        {% for unmatched_by_curriculum in unmatched_list %}
+            <h2>{{unmatched_by_curriculum.grouper}}</h2>
+            <table style="width: 600px">
+                <tr><th></th><th></th><th>ects</th><th>use for</th></tr>
+                {% for certificate in unmatched_by_curriculum.list %}
+                <tr><td>{{certificate.lvatype}}</td><td style="width: 75%">{{certificate.lvaname_de}}</td><td>{{certificate.ects}}</td><td><select>{% for ubc in unmatched_list  %}<option {% ifequal ubc.grouper unmatched_by_curriculum.grouper %}selected="selected"{% endifequal %}>{{ubc.grouper}}</option>{%endfor%}</select>{% if certificate.curriculum_overridden%}original: {{certificate.curriculum}}{%endif%}</td></tr>
+                {% endfor %}
+            </table>
+        {% endfor %}
+    </body>
+</html>

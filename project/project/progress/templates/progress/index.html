@@ -10,5 +10,12 @@
         <p><a href="javascript:(function(){ window.tisshack_authkey = '{{user.get_profile.auth_key}}'; var _my_script=document.createElement('SCRIPT'); _my_script.type='text/javascript'; _my_script.src='https://nomin.at/p/tiss/static/script.js'; document.getElementsByTagName('head')[0].appendChild(_my_script); })();">bookmarklet</a></p>
         <p><a href="/accounts/signout/">Sign out</a>
         {% endif %}
+
+        <h3>Curriculums</h3>
+        <ul>
+        {% for curriculum in curriculums %}
+            <li><a href="{{curriculum.get_absolute_url}}">{{curriculum.name}}</a></li>
+        {% endfor %}
+        </ul>
     </body>
 </html>

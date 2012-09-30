@@ -2,4 +2,8 @@ django
 south
 django-userena
 PIL
-
+beautifulsoup
+-e git+git://github.com/fin/soupselect.git#egg=soupselect
+pdfminer
+bpython
+readline

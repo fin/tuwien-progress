@@ -1,0 +1,9 @@
+<h2><span class="name"><span class="type" style="font-size: .8em">{{t.type}}</span> {{t.name}}</span> <span class="ects">{{t.ects}} / {{t.min_ects}}</span></h2>
+{% for tt in t.trees %}
+<div class="tree">
+    {% with templatename='progress/curriculumtree.html'  %}{% include templatename with t=tt %}{% endwith %}
+</div>
+{% endfor %}
+{% for lva in t.lvas|dictsortreversed:'matching' %}
+<div class="lva {% if t.complete %}complete{%endif%} {% if lva.matching %}done{% endif %}" {% if lva.matching %}data-certificate-url="{% url progress.views.certificate pk=lva.matching.0.id %}"{% endif %}><span class="name">{{lva.type}} {{lva.name}}</span><span class="ects">{% if lva.matching %}{{lva.ects}}{% else %}0{% endif %} / {{lva.ects}}</span> {% if lva.matching %}<span class="do_not_use" title="don't use for this curriculum">x</span>{% endif %}</div>
+{% endfor %}

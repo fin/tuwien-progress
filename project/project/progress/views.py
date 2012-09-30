@@ -1,6 +1,6 @@
 # Create your views here.
 from django.http import HttpResponse
-from models import Certificate
+from models import Certificate, Curriculum
 import json
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
@@ -8,9 +8,12 @@ from project.tuprofile.models import Profile
 from decimal import *
 from django.views.generic.simple import direct_to_template
 from django.core import serializers
+import pprint
+import copy
+
 
 @csrf_exempt
-def has_cert(request):
+def cert(request):
     response = HttpResponse()
     certlist = request.POST.get('certs',None)
     user = request.user
@@ -29,8 +32,11 @@ def has_cert(request):
                     continue
                 certdata['semst'] = Decimal(certdata['semst'])
                 certdata['ects'] = Decimal(certdata['ects'])
-                if not Certificate.objects.filter(user=user, **certdata):
-                    cert = Certificate.objects.create(user=user,**certdata)
+                query = dict([(str(k), v,) for k,v in certdata.iteritems() if (k in ['lvatype', 'lvano']) ])
+
+                create = dict([(str(k), v,) for k,v in certdata.iteritems()])
+                if not Certificate.objects.filter(user=user, **query):
+                    cert = Certificate.create(user=user,**create)
             response.content = 'ok'
         else:
             response.content = serializers.serialize('json', Certificate.objects.filter(user=user))
@@ -40,7 +46,16 @@ def has_cert(request):
     response['Access-Control-Allow-Origin'] = '*'
     return response
 
+def curriculum(request, pk):
+    c = Curriculum.objects.get(pk=pk)
+    user = request.user
+    if not user.is_anonymous():
+        x = c.decorate(Certificate.objects.filter(user=user))
+    return direct_to_template(request, 'progress/curriculum.html', {'user': request.user, 'curriculum': x})
 
 def index(request):
-    return direct_to_template(request, 'progress/index.html', {'user': request.user})
+    return direct_to_template(request, 'progress/index.html', {'user': request.user, 'curriculums': Curriculum.objects.all()})
+
+def certificate(request, id):
+    pass
 
